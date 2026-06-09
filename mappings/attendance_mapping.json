@@ -1,0 +1,47 @@
+{
+  "P": {
+    "Attendance_Category": "Present",
+    "Paid": true,
+    "Leave": false,
+    "Present": true,
+    "Holiday": false,
+    "Training": false,
+    "Absent": false
+  },
+  "A": {
+    "Attendance_Category": "Absent",
+    "Paid": false,
+    "Leave": false,
+    "Present": false,
+    "Holiday": false,
+    "Training": false,
+    "Absent": true
+  },
+  "L": {
+    "Attendance_Category": "Leave",
+    "Paid": true,
+    "Leave": true,
+    "Present": false,
+    "Holiday": false,
+    "Training": false,
+    "Absent": false
+  },
+  "H": {
+    "Attendance_Category": "Holiday",
+    "Paid": true,
+    "Leave": false,
+    "Present": false,
+    "Holiday": true,
+    "Training": false,
+    "Absent": false
+  },
+  "T": {
+    "Attendance_Category": "Training",
+    "Paid": true,
+    "Leave": false,
+    "Present": true,
+    "Holiday": false,
+    "Training": true,
+    "Absent": false
+  }
+}

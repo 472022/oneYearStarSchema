@@ -1,0 +1,17 @@
+{
+  "G": {
+    "Shift_Name": "General Shift"
+  },
+  "A": {
+    "Shift_Name": "Morning Shift"
+  },
+  "B": {
+    "Shift_Name": "Evening Shift"
+  },
+  "C": {
+    "Shift_Name": "Night Shift"
+  },
+  "OFF": {
+    "Shift_Name": "Weekly Off"
+  }
+}
