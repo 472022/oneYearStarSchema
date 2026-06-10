@@ -703,3 +703,95 @@
 2026-06-09 16:15:43 | INFO | Export status: success
 2026-06-09 16:15:43 | INFO | Output file: C:\Users\Prathamesh\AppData\Local\Temp\pytest-of-Prathamesh\pytest-8\test_cli_smoke_generates_workb0\cli-output.xlsx
 2026-06-09 16:15:43 | INFO | Processing time seconds: 0.432
+2026-06-10 08:58:03 | INFO | Starting attendance star schema generation
+2026-06-10 08:58:03 | INFO | Input file: C:\Users\Prathamesh\Documents\powerbi dashobard\program\uploads\From 01.01.2025 to 20.05.2026 Details of all Emp.xlsx
+2026-06-10 08:58:03 | INFO | Reading Excel workbook
+2026-06-10 08:58:59 | INFO | Sheet read: Raw Data
+2026-06-10 08:58:59 | INFO | Rows read: 251162
+2026-06-10 08:58:59 | INFO | Validating required columns
+2026-06-10 08:58:59 | INFO | Cleaning raw attendance rows
+2026-06-10 09:00:50 | INFO | Blank rows removed: 0
+2026-06-10 09:00:50 | INFO | Duplicates removed: 0
+2026-06-10 09:00:50 | INFO | Rows after cleaning: 251162
+2026-06-10 09:00:50 | INFO | Invalid dates converted to null: 0
+2026-06-10 09:00:50 | INFO | Invalid times converted to null: 0
+2026-06-10 09:00:50 | INFO | Building DIM_Employee
+2026-06-10 09:00:50 | INFO | DIM_Employee count: 1966
+2026-06-10 09:00:50 | INFO | Building DIM_Date
+2026-06-10 09:00:50 | INFO | DIM_Date count: 381
+2026-06-10 09:00:50 | INFO | Building DIM_Cost_Centre
+2026-06-10 09:00:50 | INFO | DIM_Cost_Centre count: 85
+2026-06-10 09:00:50 | INFO | Building DIM_Shift
+2026-06-10 09:00:50 | INFO | DIM_Shift count: 19
+2026-06-10 09:00:50 | INFO | Building DIM_Attendance_Type
+2026-06-10 09:00:50 | INFO | DIM_Attendance_Type count: 32
+2026-06-10 09:00:50 | INFO | Building DIM_Remarks
+2026-06-10 09:00:50 | INFO | DIM_Remarks count: 3
+2026-06-10 09:00:50 | INFO | Building FACT_Attendance
+2026-06-10 09:00:54 | INFO | FACT_Attendance count: 251162
+2026-06-10 09:00:54 | INFO | Validating foreign keys
+2026-06-10 09:00:55 | INFO | Foreign key validation passed
+2026-06-10 09:00:55 | INFO | Exporting star schema workbook
+2026-06-10 09:00:55 | INFO | Exporting sheet ⭐ Schema Guide with 25 row(s)
+2026-06-10 09:00:55 | INFO | Finished sheet ⭐ Schema Guide
+2026-06-10 09:00:55 | INFO | Exporting sheet DIM_Employee with 1966 row(s)
+2026-06-10 09:00:55 | INFO | Finished sheet DIM_Employee
+2026-06-10 09:00:55 | INFO | Exporting sheet DIM_Date with 381 row(s)
+2026-06-10 09:00:55 | INFO | Finished sheet DIM_Date
+2026-06-10 09:00:55 | INFO | Exporting sheet DIM_Cost_Centre with 85 row(s)
+2026-06-10 09:00:55 | INFO | Finished sheet DIM_Cost_Centre
+2026-06-10 09:00:55 | INFO | Exporting sheet DIM_Shift with 19 row(s)
+2026-06-10 09:00:55 | INFO | Finished sheet DIM_Shift
+2026-06-10 09:00:55 | INFO | Exporting sheet DIM_Attendance_Type with 32 row(s)
+2026-06-10 09:00:55 | INFO | Finished sheet DIM_Attendance_Type
+2026-06-10 09:00:55 | INFO | Exporting sheet DIM_Remarks with 3 row(s)
+2026-06-10 09:00:55 | INFO | Finished sheet DIM_Remarks
+2026-06-10 09:00:55 | INFO | Exporting sheet FACT_Attendance with 251162 row(s)
+2026-06-10 09:00:59 | INFO | Starting attendance star schema generation
+2026-06-10 09:00:59 | INFO | Input file: C:\Users\Prathamesh\Documents\powerbi dashobard\program\uploads\From 01.01.2025 to 20.05.2026 Details of all Emp.xlsx
+2026-06-10 09:00:59 | INFO | Reading Excel workbook
+2026-06-10 09:02:02 | INFO | Finished sheet FACT_Attendance
+2026-06-10 09:03:48 | INFO | Starting attendance star schema generation
+2026-06-10 09:03:48 | INFO | Input file: C:\Users\Prathamesh\Documents\powerbi dashobard\program\uploads\From 01.01.2025 to 20.05.2026 Details of all Emp.xlsx
+2026-06-10 09:03:48 | INFO | Reading Excel workbook
+2026-06-10 09:04:39 | INFO | Sheet read: Raw Data
+2026-06-10 09:04:39 | INFO | Rows read: 251162
+2026-06-10 09:04:39 | INFO | Validating required columns
+2026-06-10 09:04:39 | INFO | Cleaning raw attendance rows
+2026-06-10 09:05:03 | INFO | Blank rows removed: 0
+2026-06-10 09:05:03 | INFO | Duplicates removed: 0
+2026-06-10 09:05:03 | INFO | Rows after cleaning: 251162
+2026-06-10 09:05:03 | INFO | Invalid dates converted to null: 0
+2026-06-10 09:05:03 | INFO | Invalid times converted to null: 0
+2026-06-10 09:05:03 | INFO | Building DIM_Employee
+2026-06-10 09:05:03 | INFO | DIM_Employee count: 1966
+2026-06-10 09:05:03 | INFO | Building DIM_Date
+2026-06-10 09:05:03 | INFO | DIM_Date count: 381
+2026-06-10 09:05:03 | INFO | Building DIM_Cost_Centre
+2026-06-10 09:05:03 | INFO | DIM_Cost_Centre count: 85
+2026-06-10 09:05:03 | INFO | Building DIM_Shift
+2026-06-10 09:05:03 | INFO | DIM_Shift count: 19
+2026-06-10 09:05:03 | INFO | Building DIM_Attendance_Type
+2026-06-10 09:05:03 | INFO | DIM_Attendance_Type count: 32
+2026-06-10 09:05:03 | INFO | Building DIM_Remarks
+2026-06-10 09:05:03 | INFO | DIM_Remarks count: 3
+2026-06-10 09:05:03 | INFO | Building FACT_Attendance
+2026-06-10 09:05:08 | INFO | FACT_Attendance count: 251162
+2026-06-10 09:05:08 | INFO | Validating foreign keys
+2026-06-10 09:05:08 | INFO | Foreign key validation passed
+2026-06-10 09:05:08 | INFO | Exporting star schema workbook
+2026-06-10 09:05:08 | INFO | Exporting sheet ⭐ Schema Guide with 25 row(s)
+2026-06-10 09:05:08 | INFO | Finished sheet ⭐ Schema Guide
+2026-06-10 09:05:08 | INFO | Exporting sheet DIM_Employee with 1966 row(s)
+2026-06-10 09:05:08 | INFO | Finished sheet DIM_Employee
+2026-06-10 09:05:08 | INFO | Exporting sheet DIM_Date with 381 row(s)
+2026-06-10 09:05:08 | INFO | Finished sheet DIM_Date
+2026-06-10 09:05:08 | INFO | Exporting sheet DIM_Cost_Centre with 85 row(s)
+2026-06-10 09:05:08 | INFO | Finished sheet DIM_Cost_Centre
+2026-06-10 09:05:08 | INFO | Exporting sheet DIM_Shift with 19 row(s)
+2026-06-10 09:05:08 | INFO | Finished sheet DIM_Shift
+2026-06-10 09:05:08 | INFO | Exporting sheet DIM_Attendance_Type with 32 row(s)
+2026-06-10 09:05:08 | INFO | Finished sheet DIM_Attendance_Type
+2026-06-10 09:05:08 | INFO | Exporting sheet DIM_Remarks with 3 row(s)
+2026-06-10 09:05:08 | INFO | Finished sheet DIM_Remarks
+2026-06-10 09:05:08 | INFO | Exporting sheet FACT_Attendance with 251162 row(s)

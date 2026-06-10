@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Star Schema Generator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:    #1a3a5c;
+      --blue-mid:#2563a8;
+      --blue-lt: #dbeafe;
+      --green:   #16a34a;
+      --green-lt:#dcfce7;
+      --red:     #dc2626;
+      --red-lt:  #fee2e2;
+      --grey:    #f1f5f9;
+      --border:  #cbd5e1;
+      --text:    #1e293b;
+      --muted:   #64748b;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--grey);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--blue);
+      color: #fff;
+      padding: 1.5rem 2rem;
+      border-radius: 10px;
+    }
+    header h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+    header p  { margin-top: .35rem; opacity: .75; font-size: .9rem; }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+    }
+
+    /* ── Upload zone ── */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .drop-zone:hover,
+    .drop-zone.drag-over { border-color: var(--blue-mid); background: var(--blue-lt); }
+    .drop-zone svg { width: 40px; height: 40px; stroke: var(--muted); margin-bottom: .75rem; }
+    .drop-zone p   { color: var(--muted); font-size: .9rem; margin-top: .4rem; }
+    .drop-zone strong { color: var(--text); }
+
+    #file-input { display: none; }
+
+    .btn {
+      display: inline-block;
+      padding: .55rem 1.25rem;
+      border-radius: 6px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity .15s;
+    }
+    .btn:hover { opacity: .88; }
+    .btn-primary { background: var(--blue-mid); color: #fff; }
+    .btn-success { background: var(--green);    color: #fff; }
+
+    .file-name {
+      margin-top: .75rem;
+      font-size: .85rem;
+      color: var(--muted);
+      min-height: 1.2em;
+    }
+
+    .upload-actions {
+      margin-top: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* ── Spinner ── */
+    .spinner-wrap {
+      display: none;
+      align-items: center;
+      gap: .75rem;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .spinner-wrap.visible { display: flex; }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 3px solid var(--border);
+      border-top-color: var(--blue-mid);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Banners ── */
+    .banner {
+      display: none;
+      padding: .9rem 1.25rem;
+      border-radius: 8px;
+      font-size: .9rem;
+      font-weight: 500;
+    }
+    .banner.visible { display: block; }
+    .banner-success { background: var(--green-lt); color: var(--green); border: 1px solid #86efac; }
+    .banner-error   { background: var(--red-lt);   color: var(--red);   border: 1px solid #fca5a5; }
+
+    /* ── Results ── */
+    #results { display: none; }
+    #results.visible { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    /* Metric cards */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .metric {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      text-align: center;
+    }
+    .metric .label { font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+    .metric .value { font-size: 2rem; font-weight: 700; color: var(--blue); margin-top: .2rem; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+    }
+    thead th {
+      background: var(--blue);
+      color: #fff;
+      padding: .65rem 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    tbody tr:nth-child(even) { background: var(--grey); }
+    tbody td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    /* Download */
+    .download-row { display: flex; gap: 1rem; align-items: center; }
+
+    /* ── Log expander ── */
+    details {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    summary {
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: .9rem;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    summary::before {
+      content: "▶";
+      font-size: .7rem;
+      color: var(--muted);
+      transition: transform .2s;
+    }
+    details[open] summary::before { transform: rotate(90deg); }
+    #log-content {
+      margin: 0 1.5rem 1.25rem;
+      background: #0f172a;
+      color: #94a3b8;
+      font-family: "Cascadia Code", "Fira Mono", Consolas, monospace;
+      font-size: .78rem;
+      padding: 1rem;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 320px;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header>
+      <h1>Attendance Star Schema Generator</h1>
+      <p>Upload a raw attendance Excel workbook to generate a Power BI-ready star schema.</p>
+    </header>
+
+    <!-- Upload card -->
+    <div class="card">
+      <div class="drop-zone" id="drop-zone">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.4" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/>
+        </svg>
+        <p><strong>Drag &amp; drop</strong> your Excel file here, or</p>
+        <div style="margin-top:.75rem">
+          <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">Browse file</button>
+        </div>
+        <p style="margin-top:.6rem;font-size:.8rem;">Accepts .xlsx files only</p>
+      </div>
+
+      <input type="file" id="file-input" accept=".xlsx" />
+      <p class="file-name" id="file-name">No file selected</p>
+
+      <div class="upload-actions">
+        <button class="btn btn-primary" id="upload-btn" disabled>Generate Star Schema</button>
+        <div class="spinner-wrap" id="spinner">
+          <div class="spinner"></div>
+          <span>Generating workbook&hellip;</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status banners -->
+    <div class="banner banner-success" id="banner-success"></div>
+    <div class="banner banner-error"   id="banner-error"></div>
+
+    <!-- Results (hidden until success) -->
+    <div id="results">
+      <div class="metrics">
+        <div class="metric"><div class="label">Rows Read</div><div class="value" id="m-rows">—</div></div>
+        <div class="metric"><div class="label">Fact Rows</div><div class="value" id="m-fact">—</div></div>
+        <div class="metric"><div class="label">Seconds</div>  <div class="value" id="m-secs">—</div></div>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="table-wrap">
+          <table id="counts-table">
+            <thead><tr><th>Table</th><th>Rows</th></tr></thead>
+            <tbody id="counts-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="download-row">
+        <a class="btn btn-success" href="/download" download>Download Workbook</a>
+      </div>
+    </div>
+
+    <!-- Log expander -->
+    <details id="log-details">
+      <summary>Processing log</summary>
+      <pre id="log-content">Click to load…</pre>
+    </details>
+
+  </div>
+
+  <script>
+    const dropZone   = document.getElementById("drop-zone");
+    const fileInput  = document.getElementById("file-input");
+    const fileName   = document.getElementById("file-name");
+    const uploadBtn  = document.getElementById("upload-btn");
+    const spinner    = document.getElementById("spinner");
+    const bannerOk   = document.getElementById("banner-success");
+    const bannerErr  = document.getElementById("banner-error");
+    const results    = document.getElementById("results");
+    const logDetails = document.getElementById("log-details");
+    const logContent = document.getElementById("log-content");
+
+    let selectedFile = null;
+
+    function setFile(file) {
+      if (!file) return;
+      if (!file.name.toLowerCase().endsWith(".xlsx")) {
+        showError("Only .xlsx files are supported.");
+        return;
+      }
+      selectedFile = file;
+      fileName.textContent = file.name;
+      uploadBtn.disabled = false;
+      clearBanners();
+      results.classList.remove("visible");
+    }
+
+    fileInput.addEventListener("change", () => setFile(fileInput.files[0]));
+
+    dropZone.addEventListener("dragover",  e => { e.preventDefault(); dropZone.classList.add("drag-over"); });
+    dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
+    dropZone.addEventListener("drop", e => {
+      e.preventDefault();
+      dropZone.classList.remove("drag-over");
+      setFile(e.dataTransfer.files[0]);
+    });
+
+    uploadBtn.addEventListener("click", async () => {
+      if (!selectedFile) return;
+
+      clearBanners();
+      results.classList.remove("visible");
+      uploadBtn.disabled = true;
+      spinner.classList.add("visible");
+
+      const form = new FormData();
+      form.append("file", selectedFile);
+
+      try {
+        const res  = await fetch("/upload", { method: "POST", body: form });
+        const data = await res.json();
+
+        if (data.success) {
+          showSuccess("Workbook generated successfully.");
+          document.getElementById("m-rows").textContent = data.rows_read.toLocaleString();
+          document.getElementById("m-fact").textContent = data.fact_rows.toLocaleString();
+          document.getElementById("m-secs").textContent = data.seconds;
+
+          const tbody = document.getElementById("counts-body");
+          tbody.innerHTML = "";
+          for (const { table, rows } of data.table_counts) {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${table}</td><td>${rows.toLocaleString()}</td>`;
+            tbody.appendChild(tr);
+          }
+          results.classList.add("visible");
+        } else {
+          showError(data.error || "An unknown error occurred.");
+        }
+      } catch (err) {
+        showError("Network error: " + err.message);
+      } finally {
+        spinner.classList.remove("visible");
+        uploadBtn.disabled = false;
+      }
+    });
+
+    logDetails.addEventListener("toggle", async () => {
+      if (!logDetails.open) return;
+      logContent.textContent = "Loading…";
+      try {
+        const res  = await fetch("/logs");
+        const data = await res.json();
+        logContent.textContent = data.content || "(No log entries yet.)";
+      } catch {
+        logContent.textContent = "(Could not load logs.)";
+      }
+    });
+
+    function showSuccess(msg) { bannerOk.textContent = msg; bannerOk.classList.add("visible"); }
+    function showError(msg)   { bannerErr.textContent = msg; bannerErr.classList.add("visible"); }
+    function clearBanners()   {
+      bannerOk.classList.remove("visible");
+      bannerErr.classList.remove("visible");
+    }
+  </script>
+</body>
+</html>
